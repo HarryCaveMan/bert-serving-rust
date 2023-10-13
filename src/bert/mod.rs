@@ -3,10 +3,10 @@ pub mod bert_embedding_model;
 
 #[cfg(test)]
 mod tests {
-    use rust_bert::pipelines::sentence_embeddings::Embedding;
-    use rust_bert::RustBertError;
-    use bert_embedding_model::BertEmbeddingModel;
-    use tch::Device;
+    use rust_bert::pipelines::sentence_embeddings::{Embedding};
+    use rust_bert::{RustBertError};
+    use bert_embedding_model::{BertEmbeddingModel};
+    use tch::{Device};
     use super::*;
     #[test]
     fn check_device() {

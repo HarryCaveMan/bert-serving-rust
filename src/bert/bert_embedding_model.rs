@@ -1,6 +1,6 @@
 use rust_bert::pipelines::sentence_embeddings::{Embedding,SentenceEmbeddingsModel,SentenceEmbeddingsBuilder};
-use rust_bert::RustBertError;
-use tch::Device;
+use rust_bert::{RustBertError};
+use tch::{Device};
 
 pub struct BertEmbeddingModel {
     model: SentenceEmbeddingsModel
