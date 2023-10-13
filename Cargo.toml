@@ -1,0 +1,18 @@
+[package]
+name = "embedding-service-rust"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+tch = "0.13.0"
+rust-bert = "0.21.0"
+serde = { version = "1.0", features = ["derive"] }
+dotenvy = "0.15"
+serde_json = "1.0"
+actix-web = "4"
+
+[[bin]]
+name = "embedding_service"
+doc = false

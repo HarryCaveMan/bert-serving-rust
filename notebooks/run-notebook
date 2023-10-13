@@ -1,0 +1,7 @@
+#!/bin/sh
+
+CONTAINER_READY=$(docker images | grep embeddings_notebook | wc -l)
+if [[ $CONTAINER_READY = 0 ]] 
+  then docker build -t embeddings_notebook .
+fi
+docker run -it -v $(pwd)/models:/opt/ml/models -p 8888:8888 embeddings_notebook

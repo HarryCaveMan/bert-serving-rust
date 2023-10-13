@@ -1,0 +1,12 @@
+target
+models
+*.bin
+*.ot
+*.zip
+*.gz
+*.h5
+*.pk
+*.pkl
+*.pickle
+__cache__
+*.pyc
