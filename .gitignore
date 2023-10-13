@@ -1,5 +1,6 @@
 target
 models
+libtorch
 *.bin
 *.ot
 *.zip
