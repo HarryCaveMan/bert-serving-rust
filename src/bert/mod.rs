@@ -1,11 +1,11 @@
-use rust_bert::pipelines::sentence_embeddings::{Embedding,SentenceEmbeddingsModel};
-use rust_bert::RustBertError;
-use bert_embedding_model::BertEmbeddingModel;
 
 pub mod bert_embedding_model;
 
 #[cfg(test)]
 mod tests {
+    use rust_bert::pipelines::sentence_embeddings::{Embedding,SentenceEmbeddingsModel};
+    use rust_bert::RustBertError;
+    use bert_embedding_model::BertEmbeddingModel;
     use super::*;
 
     #[test]
