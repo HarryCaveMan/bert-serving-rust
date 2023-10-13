@@ -3,10 +3,16 @@ pub mod bert_embedding_model;
 
 #[cfg(test)]
 mod tests {
-    use rust_bert::pipelines::sentence_embeddings::{Embedding,SentenceEmbeddingsModel};
+    use rust_bert::pipelines::sentence_embeddings::Embedding;
     use rust_bert::RustBertError;
     use bert_embedding_model::BertEmbeddingModel;
+    use tch::Device;
     use super::*;
+    #[test]
+    fn check_device() {
+        let device: Device = Device::cuda_if_available();
+        println!("Device is CUDA?\n{:?}",device.is_cuda());
+    }
 
     #[test]
     fn test_embedding_model() {
@@ -23,7 +29,7 @@ mod tests {
             Ok(model) => {
                 let emebeddings_result: Result<Vec<Embedding>, RustBertError> = model.get_embeddings(&sentences);
                 match emebeddings_result {
-                    Ok(embeddings) => println!("Success:\n{:?}",embeddings),
+                    Ok(embeddings) => println!("Success, vector dimension:\n{:?}",embeddings[0].len()),
                     Err(err) => println!("Failed:\n{:?}",err)
                 }
             },
