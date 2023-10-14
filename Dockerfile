@@ -1,5 +1,3 @@
-
-
 FROM nvidia/cuda:11.8.0-base-ubuntu22.04 as base
 ARG SERVICE=bert_embedding_service
 ENV SERVICE=$SERVICE
