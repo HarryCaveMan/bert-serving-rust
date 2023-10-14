@@ -21,7 +21,7 @@ The models are not included in the image and must currently be provided as a vol
 
 Once you have downloaded byour HF model package, you can share it with the container via a volume mount and setting the `MODEL_PATH` environment variable to the mounted path.
 
-There is a convenience sctipt [launch-in-docker](launch-in-docker) which allows you to pass a `local_model_path` and a `container_model_path` and will automatically take care of both sharing the volume and setting `MODEL_PATH` correctly. The [launch-in-docker](launch-in-docker)` script takes two additional optional parameters for your convenience:
+There is a convenience sctipt [`launch-in-docker`](launch-in-docker) which allows you to pass a `local_model_path` and a `container_model_path` and will automatically take care of both sharing the volume and setting `MODEL_PATH` correctly. The [`launch-in-docker`](launch-in-docker) script takes two additional optional parameters for your convenience:
 - `rebuild`: Whether or not to rebuild `image_tag` the image even if it exists
 - `image_tag`: The tag that will be given to the local image, if it doesn't exist, or if `rebuild=yes`, it wil be built
 ### Exapmle
