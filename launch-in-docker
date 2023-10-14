@@ -2,7 +2,7 @@
 rebuild=no
 image_tag=test_server
 service=bert_embedding_service
-
+# parses ANY key=value argument passed in, but only uses the ones supported.
 for arg in "$@"
 do
   name="$(printf "%s" $arg | cut -d "=" -f1)"
