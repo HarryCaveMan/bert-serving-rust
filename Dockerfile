@@ -35,4 +35,4 @@ RUN mv /opt/server/$SERVICE /opt/server/serve
 
 ENV PATH="/opt/server:$PATH"
 
-cmd ["serve"]
+CMD ["serve"]
