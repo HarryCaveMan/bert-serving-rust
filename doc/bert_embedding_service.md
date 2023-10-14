@@ -17,7 +17,7 @@ The embedding endpoint
     - **Schema**:
         ```json
         {
-            crid":u32
+            "crid":u32
             "sentences":[String]
         }
         ```
