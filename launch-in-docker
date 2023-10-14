@@ -1,15 +1,34 @@
-#!/bin/sh
+#!/bin/bash
+rebuild=no
+image_tag=test_server
+service=bert_embedding_service
 
-CONTAINER_READY=`docker images | grep test_server | wc -l`
-if [ $1 = "rebuild" ]
+for arg in "$@"
+do
+  name="$(printf "%s" $arg | cut -d "=" -f1)"
+  val="$(printf "%s" $arg | cut -d "=" -f2)"
+  declare "${name}"="$val"
+done
+
+CONTAINER_READY=`docker images | grep $image_tag | wc -l`
+
+if [ $rebuild = "yes" ]
   then
+    echo "rebuild"
     CONTAINER_READY="0"
 fi
 if [ $CONTAINER_READY = "0" ]
-  then docker build -t test_server .
+  then docker build --build-arg SERVICE=$service -t $image_tag .
 fi
 if command -v "nvidia-smi" &> /dev/null
   then GPU_ARG='--gpus all'
   else GPU_ARG=''
 fi
-docker run $GPU_ARG -it -e RUST_LOG=debug -v $(pwd)/notebooks/models:/opt/ml/models -p 5000:5000 test_server serve
+docker run \
+  $GPU_ARG \
+  -it \
+  -e RUST_LOG=debug \
+  -e MODEL_PATH=$container_model_path \
+  -v $local_model_path:$container_model_path \
+  -p 5000:5000 \
+$image_tag serve

@@ -15,10 +15,7 @@ async fn ping() -> HttpResponse {
 async fn main() -> std::io::Result<()> {
     env_logger::init();
     HttpServer::new( move || {
-        let model_path: &str = &match env::var("MODEL_PATH") {
-            Ok(val) => val,
-            Err(_) => String::from("/opt/ml/models/all-MiniLM-L12-v2")
-        };
+        let model_path: &str = &env::var("MODEL_PATH").unwrap();
         let model: BertEmbeddingModel = BertEmbeddingModel::new_from_file(model_path).unwrap();
         info!("Starting service on port 5000...");
         App::new()
