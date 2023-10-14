@@ -9,21 +9,24 @@ do
   val="$(printf "%s" $arg | cut -d "=" -f2)"
   declare "${name}"="$val"
 done
-
+# checks if image tag present locally
 CONTAINER_READY=`docker images | grep $image_tag | wc -l`
-
+# overrides check if rebuild == yes
 if [ $rebuild = "yes" ]
   then
     echo "rebuilding..."
     CONTAINER_READY="0"
 fi
+# kicks off build if conditions met
 if [ $CONTAINER_READY = "0" ]
   then docker build --build-arg SERVICE=$service -t $image_tag .
 fi
+# checks for nvidia drivers
 if command -v nvidia-smi &> /dev/null
   then GPU_ARG='--gpus all'
   else GPU_ARG=''
 fi
+# launch
 docker run \
   $GPU_ARG \
   -it \
