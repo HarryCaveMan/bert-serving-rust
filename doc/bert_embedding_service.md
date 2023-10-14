@@ -17,12 +17,12 @@ The embedding endpoint
     - **Schema**:
         ```json
         {
-            "id":u32
+            crid":u32
             "sentences":[String]
         }
         ```
     - **Schema Params**:
-        - **id**: Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track
+        - **crid**: (Current Request ID) Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track. 
         - **sentences**: A batch of text sequences (sentences) to encode into vectors (max len 512 tokens)
 - **Response**: 
     - **Content-type**: `application/json`
@@ -30,10 +30,10 @@ The embedding endpoint
     - **Schema**:
         ```json
         {
-            "id":u32
+            "crid":u32
             "embeddings":[Embedding]
         }
         ```
     - **Schema Params**:
-        - **id**: Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track
+        - **crid**: (Current Request ID) Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track
         - **embeddings**: The embedding vectors for the sentences

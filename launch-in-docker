@@ -14,13 +14,13 @@ CONTAINER_READY=`docker images | grep $image_tag | wc -l`
 
 if [ $rebuild = "yes" ]
   then
-    echo "rebuild"
+    echo "rebuilding..."
     CONTAINER_READY="0"
 fi
 if [ $CONTAINER_READY = "0" ]
   then docker build --build-arg SERVICE=$service -t $image_tag .
 fi
-if command -v "nvidia-smi" &> /dev/null
+if command -v nvidia-smi &> /dev/null
   then GPU_ARG='--gpus all'
   else GPU_ARG=''
 fi
