@@ -26,6 +26,7 @@ There is a convenience sctipt [launch-in-docker](launch-in-docker) which allows 
 - `image_tag`: The tag that will be given to the local image, if it doesn't exist, or if `rebuild=yes`, it wil be built
 ### Exapmle
 ```sh
+# You would replace these with paths that matched your model
 local_path="$(pwd)/notebooks/models/all-MiniLM-L12-v2"
 container_path="/opt/ml/models/all-MiniLM-L12-v2"
 ./launch-in-docker \
