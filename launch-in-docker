@@ -4,4 +4,8 @@ CONTAINER_READY=`docker images | grep test_server | wc -l`
 if [ $CONTAINER_READY = '0' ]
   then docker build -t test_server .
 fi
-docker run -it -v $(pwd)/notebooks/models:/opt/ml/models -p 5000:5000 test_server
+if command -v "nvidia-smi" &> /dev/null
+  then GPU_ARG='--gpus all'
+  else GPU_ARG=''
+fi
+docker run $GPU_ARG -it -e RUST_LOG=debug -v $(pwd)/notebooks/models:/opt/ml/models -p 5000:5000 test_server

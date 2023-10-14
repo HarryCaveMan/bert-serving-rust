@@ -17,7 +17,7 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new( move || {
         let model_path: &str = &match env::var("MODEL_PATH") {
             Ok(val) => val,
-            Err(err) => String::from("notebooks/models/all-MiniLM-L12-v2")
+            Err(_) => String::from("/opt/ml/models/all-MiniLM-L12-v2")
         };
         let model: BertEmbeddingModel = BertEmbeddingModel::new_from_file(model_path).unwrap();
         info!("Starting service on port 5000...");

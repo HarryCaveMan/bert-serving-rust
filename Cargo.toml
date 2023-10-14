@@ -16,5 +16,5 @@ log = "0.4.20"
 env_logger = "0.10.0"
 
 [[bin]]
-name = "embedding_service"
+name = "bert_embedding_service"
 doc = false
