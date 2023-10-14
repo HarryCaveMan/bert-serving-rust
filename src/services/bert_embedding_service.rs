@@ -32,7 +32,7 @@ async fn get_embeddings(model: web::Data<BertEmbeddingModel>, req: web::Json<Emb
     debug!("Done! Took {:?}ms",start.elapsed().as_millis());
     match model_result {
         Ok(embeddings) => {
-            debug!("Embeddings shape: [{:?}{:?}]",embeddings.len(),embeddings[0].len());
+            debug!("Embeddings shape: [{:?},{:?}]",embeddings.len(),embeddings[0].len());
             HttpResponse::Ok().json(EmbeddingResponse{id:id,embeddings:embeddings})
         },
         Err(err) => {

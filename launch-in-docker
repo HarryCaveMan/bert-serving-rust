@@ -1,7 +1,11 @@
 #!/bin/sh
 
 CONTAINER_READY=`docker images | grep test_server | wc -l`
-if [ $CONTAINER_READY = '0' ]
+if [ $1 = "rebuild" ]
+  then
+    CONTAINER_READY="0"
+fi
+if [ $CONTAINER_READY = "0" ]
   then docker build -t test_server .
 fi
 if command -v "nvidia-smi" &> /dev/null
