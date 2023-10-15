@@ -8,14 +8,9 @@ mod tests {
     use bert_embedding_model::{BertEmbeddingModel};
     use tch::{Device};
     use super::*;
-    #[test]
-    fn check_device() {
-        let device: Device = Device::cuda_if_available();
-        println!("Device is CUDA?\n{:?}",device.is_cuda());
-    }
 
     #[test]
-    fn test_embedding_model() {
+    fn test_new_from_file() {
         let model_path: &str = "notebooks/models/all-MiniLM-L12-v2";
         let embedding_model: Result<BertEmbeddingModel,RustBertError> = BertEmbeddingModel::new_from_file(model_path);
         let sentences: Vec<String> = vec![
@@ -27,7 +22,7 @@ mod tests {
         ];
         match embedding_model{
             Ok(model) => {
-                let emebeddings_result: Result<Vec<Embedding>, RustBertError> = model.get_embeddings(&sentences);
+                let emebeddings_result: Result<Vec<Embedding>, RustBertError> = model.encode(&sentences);
                 match emebeddings_result {
                     Ok(embeddings) => println!("Success, vector dimension:\n{:?}",embeddings[0].len()),
                     Err(err) => println!("Failed:\n{:?}",err)

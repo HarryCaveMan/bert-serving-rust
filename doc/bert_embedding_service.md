@@ -10,7 +10,7 @@ Simple server (not model) healthcheck
     - **Content-type**: `text/plain`
     - **Statuses**:{200}
     - **Schema**: Plain text: `Ready!!`
-### `POST /get_embeddings`
+### `POST /encode`
 The embedding endpoint
 - **Request**: 
     - **Content-type**: `application/json`

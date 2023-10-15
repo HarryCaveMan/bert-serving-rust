@@ -19,7 +19,7 @@ impl BertEmbeddingModel {
             Err(err) => Err(err)
         }
     }
-    pub fn get_embeddings(&self,sentences: &Vec<String>) -> Result<Vec<Embedding>, RustBertError> {
+    pub fn encode(&self,sentences: &Vec<String>) -> Result<Vec<Embedding>, RustBertError> {
         self.model.encode(sentences)
     }
 }

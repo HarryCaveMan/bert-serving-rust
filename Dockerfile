@@ -8,17 +8,17 @@ WORKDIR /opt
 # ALL Runtime apt dependencies are installed here
 RUN apt -y update && apt -y upgrade &&\
     apt -y install \
-        pkg-config libssl-dev libgomp1 tar unzip gzip
+        pkg-config libssl-dev libgomp1 acl tar unzip gzip
 
 FROM base as libtorch-base
 # Install libtorch binary into its own layer
 RUN apt -y install curl &&\
-    curl -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.0%2Bcu118.zip &&\
+    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.0%2Bcu118.zip &&\
     unzip libtorch.zip
 
 FROM libtorch-base as builder
 # Stack application build on top of libtorch layer
-RUN apt -y install build-essential && curl -sSf https://sh.rustup.rs | sh -s -- -y   
+RUN apt -y install build-essential && curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y  
   
 ENV PATH="/root/.cargo/bin:$PATH"
 COPY . .
@@ -29,7 +29,11 @@ FROM base
 COPY --from=builder /opt/libtorch /opt/libtorch
 COPY --from=builder /opt/target/release /opt/server
 # Shim for sagemaker compatability makes the entrypoint command "serve"
-RUN mv /opt/server/$SERVICE /opt/server/serve
+RUN mv /opt/server/$SERVICE /opt/server/serve &&\
+    useradd app-user -u 1000 -M -s /bin/false &&\
+    setfacl -m user:app-user:r-x /opt/server/serve
 ENV PATH="/opt/server:$PATH"
+
+USER app-user
 
 CMD ["serve"]

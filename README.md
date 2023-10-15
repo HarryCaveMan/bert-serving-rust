@@ -4,8 +4,9 @@ A Crate for serving Transformer models written by a noob rustacean for practice,
 ## Background
 Heavily dependent on `rust_bert`, which itself is inspired by HuggingFace Transformers. This crate is essentially a platform for building the `rust_bert` pipelines into `actix_web` microservices.
 
-## In Profress Features (13 October 2023)
-- Workig on support for remote models from HF Hub
+## In Profress Features (14 October 2023)
+- Working on adding NER and sequence classifiction pipeline support
+- (Paused) Workig on support for remote models from HF Hub
 
 ## Current Services (13 October 2023)
 - [bert_embedding_service](doc/bert_embedding_service.md)
@@ -35,4 +36,4 @@ container_path="/opt/ml/models/all-MiniLM-L12-v2"
     local_model_path=local_path \
     container_model_path=container_path
 ```
-This would serve `all-MiniLM-L12-v2` embeddings at `localhost:5000/embeddings/get_embeddings`
+This would serve `all-MiniLM-L12-v2` embeddings at `localhost:5000/embeddings/encode`

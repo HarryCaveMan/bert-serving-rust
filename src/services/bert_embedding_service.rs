@@ -23,12 +23,12 @@ struct ErrorResponse {
     message: String
 }
 
-#[post("/get_embeddings")]
-async fn get_embeddings(model: web::Data<BertEmbeddingModel>, req: web::Json<EmbeddingRequest>) -> HttpResponse {
+#[post("/encode")]
+async fn encode(model: web::Data<BertEmbeddingModel>, req: web::Json<EmbeddingRequest>) -> HttpResponse {
     let crid: u32 = req.crid;
     debug!("Starting inference...");
     let start: Instant = Instant::now();
-    let model_result: Result<Vec<Embedding>, RustBertError> = model.get_embeddings(&req.sentences);
+    let model_result: Result<Vec<Embedding>, RustBertError> = model.encode(&req.sentences);
     debug!("Done! Took {:?}ms",start.elapsed().as_millis());
     match model_result {
         Ok(embeddings) => {
