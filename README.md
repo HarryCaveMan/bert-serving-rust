@@ -9,7 +9,7 @@ The ultimate near-term goal of this project is to support all the [pipelines](ht
 ## In Profress Features (15 October 2023)
 - Working on adding sequence classifiction pipeline support
 - NER support added 15 October 2023
-- (Paused) Workig on support for remote models from HF Hub
+- (Paused 14 October 2023) Workig on support for remote models from HF Hub
 
 ## Current Services (15 October 2023)
 - [bert_embedding_service](doc/bert_embedding_service.md)
