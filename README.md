@@ -6,8 +6,9 @@ Heavily dependent on [rust_bert`](https://github.com/guillaume-be/rust-bert/tree
 
 The ultimate near-term goal of this project is to support all the [pipelines](https://github.com/guillaume-be/rust-bert/blob/main/README.md#ready-to-use-pipelines) currently supported by `rust_bert`. The long-term would not be limited to these, because botht this crate and `rust_bert` offer flexibility and extensibility.
 
-## In Profress Features (14 October 2023)
-- Working on adding NER and sequence classifiction pipeline support
+## In Profress Features (15 October 2023)
+- Working on adding sequence classifiction pipeline support
+- NER support added 15 October 2023
 - (Paused) Workig on support for remote models from HF Hub
 
 ## Current Services (15 October 2023)
