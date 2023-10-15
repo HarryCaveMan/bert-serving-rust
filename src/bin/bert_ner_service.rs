@@ -1,6 +1,6 @@
 use actix_web::{get,web,App,HttpServer,HttpResponse};
 use actix_web::middleware::{Logger};
-use log::{info};
+use log::{info,error};
 use std::{env};
 
 use bert_serving_rust::bert::bert_ner::model::{BertNERModel};
@@ -14,11 +14,17 @@ async fn ping() -> HttpResponse {
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     env_logger::init();
+    let num_web_workers: usize = match env::var("NUM_WEB_WORKERS") {
+        Ok(val) => val.parse().unwrap(),
+        Err(err) => {
+            error!("{:?}",err);
+            4
+        }
+    };
     HttpServer::new( move || {
         let model_path: &str = &env::var("MODEL_PATH").unwrap();
         let service: &str = &env::var("SERVICE").unwrap();
         let model: BertNERModel = BertNERModel::new_from_file(model_path).unwrap();
-        info!("Starting service on port 5000...");
         App::new()
             .service(
                 web::scope(&format!("/{}",service))
@@ -28,7 +34,7 @@ async fn main() -> std::io::Result<()> {
             )
             .wrap(Logger::default())
     })
-    .workers(4)
+    .workers(num_web_workers)
     .bind(("0.0.0.0",5000))?
     .run()
     .await
