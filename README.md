@@ -8,8 +8,9 @@ Heavily dependent on `rust_bert`, which itself is inspired by HuggingFace Transf
 - Working on adding NER and sequence classifiction pipeline support
 - (Paused) Workig on support for remote models from HF Hub
 
-## Current Services (13 October 2023)
+## Current Services (15 October 2023)
 - [bert_embedding_service](doc/bert_embedding_service.md)
+- [bert_ner_service](doc/bert_ner_service.md)
 
 ## Building a service image
 All service images use the same `Dockerfile`. You can select which service to build using the `SERVICE` build arg IE:
