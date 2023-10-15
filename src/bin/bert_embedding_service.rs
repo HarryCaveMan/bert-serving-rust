@@ -1,15 +1,12 @@
-use actix_web::{get,web,App,HttpServer,HttpResponse};
+use actix_web::{web,App,HttpServer,HttpResponse};
 use actix_web::middleware::{Logger};
 use log::{info};
 use std::{env};
 
 use bert_serving_rust::bert::bert_embedding_model::{BertEmbeddingModel};
 use bert_serving_rust::services::bert_embedding_service::{encode};
+use bert_serving_rust::services::ping::{ping};
 
-#[get("/ping")]
-async fn ping() -> HttpResponse {
-    HttpResponse::Ok().body("Ready!!")
-}
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
