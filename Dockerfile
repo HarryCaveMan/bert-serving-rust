@@ -28,7 +28,7 @@ FROM base
 # Start with fresh base layer and bopy over build artifacts
 COPY --from=builder /opt/libtorch /opt/libtorch
 COPY --from=builder /opt/target/release /opt/server
-# Shim for sagemaker compatability makes the entrypoint command "serve"
+# Setup app-user and add shim for sagemaker compatability makes the entrypoint command "serve"
 RUN mv /opt/server/$SERVICE /opt/server/serve &&\
     useradd app-user -u 1000 -M -s /bin/false &&\
     setfacl -m user:app-user:r-x /opt/server/serve
