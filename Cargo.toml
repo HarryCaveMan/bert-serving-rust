@@ -18,3 +18,7 @@ env_logger = "0.10.0"
 [[bin]]
 name = "bert_embedding_service"
 doc = false
+
+[[bin]]
+name = "bert_ner_service"
+doc = false

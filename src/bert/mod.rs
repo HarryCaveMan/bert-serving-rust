@@ -6,14 +6,13 @@ pub mod bert_ner;
 mod tests {
     use rust_bert::pipelines::sentence_embeddings::{Embedding};
     use rust_bert::pipelines::ner::{Entity};
-    use rust_bert::{RustBertError};
     use bert_embedding_model::{BertEmbeddingModel};
     use bert_ner::model::{BertNERModel};   
     use super::*;
 
     #[test]
     fn test_embedding_from_file() {
-        println!("Testing BERT embedding model file constructor...")
+        println!("Testing BERT embedding model file constructor...");
         let model_path: &str = "notebooks/models/all-MiniLM-L12-v2";
         let embedding_model: BertEmbeddingModel = BertEmbeddingModel::new_from_file(model_path).unwrap();
         let sentences: Vec<String> = vec![
@@ -31,7 +30,7 @@ mod tests {
 
     #[test]
     fn test_ner_from_file() {
-        println!("Testing BERT NER model file constructor...")
+        println!("Testing BERT NER model file constructor...");
         let model_path: &str = "notebooks/models/bert-large-cased-finetuned-conll03-english";
         let ner_model: BertNERModel = BertNERModel::new_from_file(model_path).unwrap();
         let sentences: Vec<String> = vec![

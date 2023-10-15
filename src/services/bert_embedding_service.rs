@@ -5,7 +5,7 @@ use serde::{Serialize,Deserialize};
 use log::{debug,error};
 use std::time::{Instant};
 
-use super::bert::bert_embedding_model::BertEmbeddingModel;
+use super::bert::bert_embedding_model::{BertEmbeddingModel};
 
 #[derive(Serialize,Deserialize)]
 struct EmbeddingRequest {

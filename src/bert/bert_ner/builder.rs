@@ -49,7 +49,6 @@ impl NERBuilder<Local> {
         let config_resource = model_dir.join("config.json");
         let transformer_type = ModelConfig::from_file(&config_resource).model_type;
         let local_resource = LocalResource{local_path:model_dir.join("rust_model.ot")};
-        let tokenizer_config = model_dir.join("tokenizer_config.json");
         let (tokenizer_vocab, tokenizer_merges) = match transformer_type {
             ModelType::Bert | ModelType::DistilBert => (model_dir.join("vocab.txt"), None),
             ModelType::Roberta => (
