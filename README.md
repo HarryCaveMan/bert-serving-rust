@@ -2,7 +2,7 @@
 A Crate for serving Transformer models written by a noob rustacean for practice, meant to actually be useful and robust.
 
 ## Background
-Heavily dependent on [rust_bert`](https://github.com/guillaume-be/rust-bert/tree/main), which itself is inspired by HuggingFace Transformers. This crate is essentially a platform for building the `rust_bert` pipelines into `actix_web` microservices.
+Heavily dependent on [`rust_bert`](https://github.com/guillaume-be/rust-bert/tree/main), which itself is inspired by HuggingFace Transformers. This crate is essentially a platform for building the `rust_bert` pipelines into `actix_web` microservices.
 
 The ultimate near-term goal of this project is to support all the [pipelines](https://github.com/guillaume-be/rust-bert/blob/main/README.md#ready-to-use-pipelines) currently supported by `rust_bert`. The long-term would not be limited to these, because botht this crate and `rust_bert` offer flexibility and extensibility.
 
