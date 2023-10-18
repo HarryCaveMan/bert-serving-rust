@@ -6,7 +6,7 @@ Heavily dependent on [`rust_bert`](https://github.com/guillaume-be/rust-bert/tre
 
 The ultimate near-term goal of this project is to support all the [pipelines](https://github.com/guillaume-be/rust-bert/blob/main/README.md#ready-to-use-pipelines) currently supported by `rust_bert`. The long-term would not be limited to these, because botht this crate and `rust_bert` offer flexibility and extensibility.
 
-## In Progress Features (15 October 2023)
+## In Progress Features (17 October 2023)
 - Working on reranking
 - Working on performance/load benchmarks
 - Sequence Classification added 17 October 2023
