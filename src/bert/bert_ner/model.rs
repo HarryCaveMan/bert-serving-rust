@@ -11,7 +11,7 @@ pub struct BertNERModel {
 impl BertNERModel {
     pub fn new_from_file(file: &str) -> Result<Self,RustBertError> {
         let device = Device::cuda_if_available();
-        info!("Device is CUDA: {:?}",device.is_cuda());
+        info!("Found device: {:?}",device);
         let model_result: Result<NERModel, RustBertError> = NERBuilder::local(file)
             .with_device(device)
             .create_model();

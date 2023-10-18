@@ -1,13 +1,16 @@
 
 pub mod bert_embedding_model;
 pub mod bert_ner;
+pub mod bert_sequence_classification;
 
 #[cfg(test)]
 mod tests {
     use rust_bert::pipelines::sentence_embeddings::{Embedding};
     use rust_bert::pipelines::ner::{Entity};
+    use rust_bert::pipelines::sequence_classification::{Label};
     use bert_embedding_model::{BertEmbeddingModel};
-    use bert_ner::model::{BertNERModel};   
+    use bert_ner::model::{BertNERModel}; 
+    use bert_sequence_classification::model::{BertSequenceClassificationModel};
     use super::*;
 
     #[test]
@@ -41,5 +44,22 @@ mod tests {
         ];
         let extractions: Vec<Vec<Entity>> = ner_model.predict(&sentences);
         println!("NER test success! Extractions\n{:?}",extractions);
+    }
+
+    #[test]
+    fn test_sequence_classification_from_file() {
+        println!("Testing BERT NER model file constructor...");
+        let model_path: &str = "notebooks/models/finbert";
+        let sequence_classification_model: BertSequenceClassificationModel = BertSequenceClassificationModel::new_from_file(model_path).unwrap();
+        let sentences: Vec<String> = vec![
+            String::from("Quarterly earnings"),
+            String::from("Quarterly earnings fell"),
+            String::from("Quarterly earnings rose"),
+            String::from("Growth outpaced inflation"),
+            String::from("Inflation outpaced growth"),
+            String::from("abcdefghijklmnopqrstuvwxyz now I know my abc's, next time won't you sing with me? 0123456789")
+        ];
+        let labels: Vec<Label> = sequence_classification_model.predict(&sentences);
+        println!("Sequence Classifier test success! Labels\n{:?}",labels);
     }
 }

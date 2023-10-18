@@ -1,6 +1,6 @@
-use actix_web::{web,App,HttpServer,HttpResponse};
+use actix_web::{web,App,HttpServer};
 use actix_web::middleware::{Logger};
-use log::{info};
+use log::{error};
 use std::{env};
 
 use bert_serving_rust::bert::bert_embedding_model::{BertEmbeddingModel};
@@ -12,7 +12,7 @@ use bert_serving_rust::services::ping::{ping};
 async fn main() -> std::io::Result<()> {
     env_logger::init();
     let num_web_workers: usize = match env::var("NUM_WEB_WORKERS") {
-        Ok(val) => val.parse<usize>().unwrap(),
+        Ok(val) => val.parse::<usize>().unwrap(),
         Err(err) => {
             error!("{:?}",err);
             4

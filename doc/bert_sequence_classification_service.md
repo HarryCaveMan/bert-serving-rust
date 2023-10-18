@@ -1,7 +1,7 @@
-# Bert Named Entity Recognition Service
+# Bert Sequence Classification Service
 
 ## Base Path
-The NER service path will be set by the `SERVICE` environment variable, but will default to `/bert_ner_service`
+The sequence classification service path will be set by the `SERVICE` environment variable, but will default to `/bert_sequence_classification_service`
 
 ## API
 ### `GET /ping`
@@ -11,7 +11,7 @@ Simple server (not model) healthcheck
     - **Statuses**:{200}
     - **Schema**: Plain text: `Ready!!`
 ### `POST /predict`
-The ner endpoint
+The classifier endpoint
 - **Request**: 
     - **Content-type**: `application/json`
     - **Schema**:
@@ -23,7 +23,7 @@ The ner endpoint
         ```
     - **Schema Params**:
         - **crid**: (Current Request ID) Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track. 
-        - **sentences**: A batch of text sequences (sentences) to extract named entities from
+        - **sentences**: A batch of text sequences (sentences) to get labels for
 - **Response**: 
     - **Content-type**: `application/json`
     - **Statuses**:{200,500}
@@ -31,19 +31,16 @@ The ner endpoint
         ```json
         {
             "crid":u32
-            "entities":[
+            "labels":[
+                { 
+                    "text": String,
+                    "score": f64,
+                    "id": u64,
+                    "sentence": u64 }
                 {
-                    "word":String,
-                    "score":f64,
-                    "label":String,
-                    "offset": {
-                        "begin":u32,
-                        "end":u32
-                    },
-                }
             ]
         }
         ```
     - **Schema Params**:
         - **crid**: (Current Request ID) Unsigned int. Not used at all by service aside from being passed through to the response, purely used (or misused, we don't care) to allow async callers to track
-        - **entities**: The extraxted entities as individual tokens
+        - **labels**: The labels for each sentence in the input list

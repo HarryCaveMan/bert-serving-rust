@@ -16,11 +16,6 @@ struct NERResponse {
     crid: u32,
     entities: Vec<Vec<Entity>>
 }
-#[derive(Serialize,Deserialize)]
-struct ErrorResponse {
-    crid: u32,
-    message: String
-}
 
 #[post("/predict")]
 async fn predict(model: web::Data<BertNERModel>, req: web::Json<NERRequest>) -> HttpResponse {

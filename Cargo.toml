@@ -22,3 +22,7 @@ doc = false
 [[bin]]
 name = "bert_ner_service"
 doc = false
+
+[[bin]]
+name = "bert_sequence_classification_service"
+doc = false
