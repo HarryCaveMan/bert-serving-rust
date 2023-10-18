@@ -1,7 +1,16 @@
 #!/bin/sh
 
-CONTAINER_READY=$(docker images | grep embeddings_notebook | wc -l)
-if [[ $CONTAINER_READY = 0 ]] 
-  then docker build -t embeddings_notebook .
+if [ $1 = '' ] 
+  then IMAGE=rust_bert_notebook
+  else IMAGE=$1
 fi
-docker run -it -v $(pwd)/models:/opt/ml/models -p 8888:8888 embeddings_notebook
+CONTAINER_READY=$(docker images | grep $IMAGE | wc -l)
+if [ $CONTAINER_READY = '0' ]
+  then docker build -t $IMAGE .
+fi
+# checks for nvidia drivers
+if command -v nvidia-smi &> /dev/null
+  then GPU_ARG='--gpus all'
+  else GPU_ARG=''
+fi
+docker run $GPU_ARG -it -v $(pwd)/:/opt/workspace -p 8888:8888 $IMAGE
