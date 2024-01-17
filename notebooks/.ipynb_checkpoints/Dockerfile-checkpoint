@@ -20,7 +20,6 @@ RUN apt -y update && apt -y upgrade &&\
     unzip libtorch.zip && rm -f libtorch.zip &&\
     pip3 install \
       torch==2.0 \
-      transformers \
       jupyterlab \
       scikit-learn \
       matplotlib \
