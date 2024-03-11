@@ -1,7 +1,7 @@
 # Bert Embedding Service
 
 ## Base Path
-The embedding service path will be set by the `SERVICE` environment variable, but will defailt to `/bert_embedding_service`
+The embedding service path will be set by the `SERVICE` environment variable, but will default to `/bert_embedding_service`
 
 ## API
 ### `GET /ping`

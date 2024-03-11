@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.8.0-base-ubuntu22.04
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 ENV LIBTORCH=/opt/libtorch
 ENV LD_LIBRARY_PATH="${LIBTORCH}/lib:$LD_LIBRARY_PATH"
@@ -21,11 +21,17 @@ RUN apt -y update && apt -y upgrade &&\
     pip3 install \
       torch==2.0 \
       transformers \
+      diffusers \
+      accelerate \
+      pillow \
       jupyterlab \
       scikit-learn \
       matplotlib \
     &&\
-    curl -sSf https://sh.rustup.rs| bash -s -- -y
+    curl --proto '=https' --tlsv1.2 https://sh.rustup.rs| bash -s -- -y &&\
+    rustup component add rust-src &&\
+    cargo install --locked evcxr_jupyter &&\
+    evcxr_jupyter --install
 
 RUN git clone https://github.com/guillaume-be/rust-bert.git &&\
  echo 'python3 /opt/rust-bert/utils/convert_model.py $1' > /usr/local/bin/convert_model &&\

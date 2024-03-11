@@ -43,6 +43,40 @@ impl SequenceClassificationBuilder<Local> {
         }
     }
 
+    pub fn get_config(self) -> SequenceClassificationConfig {
+        let model_dir = self.inner.model_dir;
+        let config_resource = model_dir.join("config.json");
+        let transformer_type = ModelConfig::from_file(&config_resource).model_type;
+        let local_resource = LocalResource{local_path:model_dir.join("rust_model.ot")};
+        let (tokenizer_vocab, tokenizer_merges) = match transformer_type {
+            ModelType::Bert | ModelType::DistilBert => (model_dir.join("vocab.txt"), None),
+            ModelType::Roberta => (
+                model_dir.join("vocab.json"),
+                Some(model_dir.join("merges.txt")),
+            ),
+            ModelType::Albert => (model_dir.join("spiece.model"), None),
+            ModelType::T5 => (model_dir.join("spiece.model"), None),
+            _ => {
+                return Err(RustBertError::InvalidConfigurationError(format!(
+                    "Unsupported transformer model {transformer_type:?} for Sentence Embeddings",
+                )));
+            }
+        };
+        SequenceClassificationConfig {
+            model_type: transformer_type,
+            model_resource: ModelResource::Torch(Box::new(local_resource)),
+            config_resource: config_resource.into(),
+            vocab_resource: tokenizer_vocab.into(),
+            merges_resource: tokenizer_merges.map(|r| r.into()),
+            lower_case: false,
+            strip_accents: None,
+            add_prefix_space: None,
+            device: self.device
+        }
+    }
+
+    pub fn create_from_config(self)
+
     pub fn create_model(self) -> Result<SequenceClassificationModel, RustBertError> {
         let model_dir = self.inner.model_dir;
         let config_resource = model_dir.join("config.json");

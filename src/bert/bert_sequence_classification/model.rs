@@ -4,9 +4,15 @@ use log::{info};
 use tch::{Device};
 use super::builder::{SequenceClassificationBuilder};
 
+trait SequenceClassifierReranker {
+    pub fn rerank_one(&self,query: &str, results: &Vec<&str>) {}
+}
+
 pub struct BertSequenceClassificationModel {
     model: SequenceClassificationModel
 }
+
+
 
 impl BertSequenceClassificationModel {
     pub fn new_from_file(file: &str) -> Result<Self,RustBertError> {
