@@ -700,9 +700,9 @@ impl SequenceClassificationModel {
         &self.max_length
     }
 
-    fn prepare_for_model<'a, S ,V>(qeries: S, results_set: V) -> Result(Vec<(Vec<&'a str>,Tensor,Tensor))>
-    where S: AsRef<[Vec<(&'a str,&'a str)]>
-        S: AsRef<[&'a str]>,
+    fn prepare_for_model<'a, S ,V>(qeries: S, results_set: V) -> Result<Vec<(Vec<&'a str>,Tensor,Tensor)>>
+    where 
+        S: AsRef<[Vec<(&'a str,&'a str)>]>,
         V: AsRef<[Vec<&'a str>]>
     {
         queries
@@ -725,7 +725,7 @@ impl SequenceClassificationModel {
                     text_pair_list.as_ref(),
                     self.max_length,
                     &TruncationStrategy::LongestFirst,
-                    0,
+                    0
                 )
                 let max_len = tokenized_input
                     .iter()
@@ -733,6 +733,7 @@ impl SequenceClassificationModel {
                     .max()
                     .unwrap();
                 let pad_id = self
+                    .tokenizer
                     .get_pad_id()
                     .expect("The Tokenizer used for sequence classification should contain a PAD id");
                 let tokenized_input_tensors: Vec<Tensor> = tokenized_input
@@ -741,8 +742,7 @@ impl SequenceClassificationModel {
                         input.token_ids.resize(max_len, pad_id);
                         Tensor::from_slice(&(input.token_ids))
                     })
-                    .collect::<Vec<_>>();
-
+                .collect::<Vec<_>>();
                 let token_type_ids: Vec<Tensor> = tokenized_input
                     .iter_mut()
                     .map(|input| {
@@ -751,14 +751,13 @@ impl SequenceClassificationModel {
                             .resize(max_len, *input.segment_ids.last().unwrap_or(&0));
                         Tensor::from_slice(&(input.segment_ids))
                     })
-                    .collect::<Vec<_>>();
-
+                .collect::<Vec<_>>();
                 Ok(
                     (
                         results,
-                        Tensor::stack(tokenized_input_tensors.as_slice(), 0).to(device),
+                        Tensor::stack(tokenized_input_tensors.as_slice(), 0).to(self.device),
                         Tensor::stack(token_type_ids.as_slice(), 0)
-                            .to(device)
+                            .to(self.device)
                             .to_kind(Kind::Int64),
                     )
                 )
