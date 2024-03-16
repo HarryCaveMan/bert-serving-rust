@@ -2,6 +2,7 @@
 pub mod bert_embedding_model;
 pub mod bert_ner;
 pub mod bert_sequence_classification;
+pub mod bert_reranking;
 
 #[cfg(test)]
 mod tests {
@@ -11,6 +12,7 @@ mod tests {
     use bert_embedding_model::{BertEmbeddingModel};
     use bert_ner::model::{BertNERModel}; 
     use bert_sequence_classification::model::{BertSequenceClassificationModel};
+    use bert_reranking::model::{BertRerankingModel,RankedResults};
     use super::*;
 
     #[test]
@@ -61,5 +63,31 @@ mod tests {
         ];
         let labels: Vec<Label> = sequence_classification_model.predict(&sentences);
         println!("Sequence Classifier test success! Labels\n{:?}",labels);
+    }
+
+    #[test]
+    fn test_reranking_from_file() {
+        let model_path: &str = "notebooks/models/amazon-query-product-ranking";
+        let reranking_model: BertRerankingModel = BertRerankingModel::new_from_file(model_path).unwrap();
+        let logit_index_thresh: i64 = 2;
+        let queries: Vec<String> = vec![
+            String::from("4x100 wheel 15in")
+        ];
+        let results_set: Vec<Vec<String>> = vec![
+            vec![
+                String::from("15x7 universal wheel"),
+                String::from("17 inch wleel"),
+                String::from("4x100 15x7 wheel"),
+                String::from("wheel"),
+                String::from("Washington D.C."),
+                String::from("mouse trap"),
+                String::from("model plane"),
+                String::from("cheeseburgers might be unhealthy, but they sure are tasty!")
+            ]
+        ];
+        match reranking_model.predict(&queries,&results_set,logit_index_thresh) {
+            Ok(ranked_results) => println!("Reranking test success! Rankings:\n{:?}",ranked_results),
+            Err(rust_bert_err) => println!("Reranking test fail! Err:\n{:?}",rust_bert_err)
+        };
     }
 }

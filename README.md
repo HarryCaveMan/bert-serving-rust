@@ -40,7 +40,7 @@ container_path="/opt/ml/models/all-MiniLM-L12-v2"
 ./launch-in-docker \
     service=bert_embedding_service \
     image=embedding_test \
-    local_model_path=local_path \
-    container_model_path=container_path
+    local_model_path=$local_path \
+    container_model_path=$container_path
 ```
 This would serve `all-MiniLM-L12-v2` embeddings at `localhost:5000/embeddings/encode`

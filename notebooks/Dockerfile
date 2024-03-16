@@ -16,10 +16,10 @@ RUN apt -y update && apt -y upgrade &&\
       unzip \
       curl \
     &&\
-    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.0.0%2Bcu118.zip &&\
+    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.2.0%2Bcu118.zip &&\
     unzip libtorch.zip && rm -f libtorch.zip &&\
     pip3 install \
-      torch==2.0 \
+      torch==2.2 \
       transformers \
       diffusers \
       accelerate \

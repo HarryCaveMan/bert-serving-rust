@@ -75,6 +75,7 @@ impl NERBuilder<Local> {
             device: self.device,
             label_aggregation_function: LabelAggregationOption::First,
             batch_size: 64,
+            kind: None
         };
         NERModel::new(config)
     }
