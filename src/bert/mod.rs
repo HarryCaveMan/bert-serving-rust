@@ -69,7 +69,7 @@ mod tests {
     fn test_reranking_from_file() {
         let model_path: &str = "notebooks/models/amazon-query-product-ranking";
         let reranking_model: BertRerankingModel = BertRerankingModel::new_from_file(model_path).unwrap();
-        let logit_index_thresh: i64 = 2;
+        let logit_index_thresh: i64 = 1;
         let queries: Vec<String> = vec![
             String::from("4x100 wheel 15in")
         ];
@@ -85,9 +85,7 @@ mod tests {
                 String::from("cheeseburgers might be unhealthy, but they sure are tasty!")
             ]
         ];
-        match reranking_model.predict(&queries,&results_set,logit_index_thresh) {
-            Ok(ranked_results) => println!("Reranking test success! Rankings:\n{:?}",ranked_results),
-            Err(rust_bert_err) => println!("Reranking test fail! Err:\n{:?}",rust_bert_err)
-        };
+        let ranked_results = reranking_model.predict(&queries,&results_set,logit_index_thresh);
+        println!("Reranking test success! Rankings:\n{:?}",ranked_results)
     }
 }

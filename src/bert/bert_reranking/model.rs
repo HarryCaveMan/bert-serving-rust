@@ -22,10 +22,10 @@ impl BertRerankingModel {
             Err(err) => Err(err)
         }
     }
-    pub fn predict(&self, queries: &Vec<String>, results_set: &Vec<Vec<String>>, logit_index_threshold: i64) -> Result<RankedResults,RustBertError> {
+    pub fn predict(&self, queries: &Vec<String>, results_set: &Vec<Vec<String>>, logit_index_threshold: i64) -> RankedResults {
         let query_refs: Vec<&str> = queries.iter().map(|s| s.as_ref()).collect();
         let results_refs: Vec<Vec<&str>> = results_set.iter().map(|v| v.iter().map(AsRef::as_ref).collect())
         .collect();
-        Ok(self.model.predict(&query_refs,&results_refs,logit_index_threshold)?)
+        self.model.predict(&query_refs,&results_refs,logit_index_threshold)
     }
 }

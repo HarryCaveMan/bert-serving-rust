@@ -1,4 +1,4 @@
-FROM nvidia/cuda:11.8.0-base-ubuntu22.04 as base
+FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04 as base
 ARG SERVICE=bert_embedding_service
 ENV SERVICE=$SERVICE
 ENV LIBTORCH=/opt/libtorch
@@ -13,7 +13,7 @@ RUN apt -y update && apt -y upgrade &&\
 FROM base as libtorch-base
 # Install libtorch binary into its own layer
 RUN apt -y install curl &&\
-    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.2.0%2Bcu118.zip &&\
+    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.1.0%2Bcu118.zip &&\
     unzip libtorch.zip
 
 FROM libtorch-base as builder

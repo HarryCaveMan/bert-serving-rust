@@ -11,7 +11,7 @@ struct SequenceClassificationRequest {
     sentences: Vec<String>
 }
 #[derive(Serialize,Deserialize)]
-struct SequenceClassificatioResponse {
+struct SequenceClassificationResponse {
     crid: u32,
     labels: Vec<Label>
 }
@@ -24,5 +24,5 @@ async fn predict(model: web::Data<BertSequenceClassificationModel>, req: web::Js
     let labels: Vec<Label> = model.predict(&req.sentences);
     debug!("Done! Took {:?}ms",start.elapsed().as_millis());    
     debug!("Labels:\n{:?}",labels);
-    HttpResponse::Ok().json(SequenceClassificatioResponse{crid:crid,labels:labels})
+    HttpResponse::Ok().json(SequenceClassificationResponse{crid:crid,labels:labels})
 }
