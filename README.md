@@ -13,7 +13,7 @@ The ultimate near-term goal of this project is to support all the [pipelines](ht
 - NER support added 15 October 2023
 - (Paused 14 October 2023) Workig on support for remote models from HF Hub
 
-## Current Services (17 October 2023)
+## Current Services (16 Mar 2024)
 - [bert_embedding_service](doc/bert_embedding_service.md)
 - [bert_ner_service](doc/bert_ner_service.md)
 - [bert_sequence_classification_service](doc/bert_sequence_classification_service.md)
@@ -28,7 +28,7 @@ docker build --build-arg SERVICE=bert_embedding_service .
 ## Launching a service image
 The models are not included in the image and must currently be provided as a volume mount. Support for remote models on HF hub will be added very soon. S3 will be next. Followed by other cloud buckets/blobstores.
 
-Once you have downloaded byour HF model package, you can share it with the container via a volume mount and setting the `MODEL_PATH` environment variable to the mounted path.
+Once you have downloaded your HF model package, you can share it with the container via a volume mount and setting the `MODEL_PATH` environment variable to the mounted path.
 
 There is a convenience sctipt [`launch-in-docker`](launch-in-docker) which allows you to pass a `local_model_path` and a `container_model_path` and will automatically take care of both sharing the volume and setting `MODEL_PATH` correctly. The [`launch-in-docker`](launch-in-docker) script takes two additional optional parameters for your convenience:
 - `rebuild`: Whether or not to rebuild `image_tag` the image even if it exists
