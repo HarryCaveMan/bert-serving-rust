@@ -6,9 +6,9 @@ Heavily dependent on [`rust_bert`](https://github.com/guillaume-be/rust-bert/tre
 
 The ultimate near-term goal of this project is to support all the [pipelines](https://github.com/guillaume-be/rust-bert/blob/main/README.md#ready-to-use-pipelines) currently supported by `rust_bert`. The long-term would not be limited to these, because botht this crate and `rust_bert` offer flexibility and extensibility.
 
-## In Progress Features (17 October 2023)
-- Working on reranking
+## In Progress Features (16 Mar 2024)
 - Working on performance/load benchmarks
+- Reranking added (16 Mar 2024)
 - Sequence Classification added 17 October 2023
 - NER support added 15 October 2023
 - (Paused 14 October 2023) Workig on support for remote models from HF Hub
@@ -17,6 +17,7 @@ The ultimate near-term goal of this project is to support all the [pipelines](ht
 - [bert_embedding_service](doc/bert_embedding_service.md)
 - [bert_ner_service](doc/bert_ner_service.md)
 - [bert_sequence_classification_service](doc/bert_sequence_classification_service.md)
+- [bert_reranking_service](doc/bert_reranking_service.md)
 
 ## Building a service image
 All service images use the same `Dockerfile`. You can select which service to build using the `SERVICE` build arg IE:
@@ -40,7 +41,7 @@ container_path="/opt/ml/models/all-MiniLM-L12-v2"
 ./launch-in-docker \
     service=bert_embedding_service \
     image=embedding_test \
-    local_model_path=local_path \
-    container_model_path=container_path
+    local_model_path=$local_path \
+    container_model_path=$container_path
 ```
 This would serve `all-MiniLM-L12-v2` embeddings at `localhost:5000/embeddings/encode`

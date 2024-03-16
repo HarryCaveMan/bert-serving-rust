@@ -20,13 +20,15 @@ if [ $rebuild = "yes" ]
 fi
 # kicks off build if conditions met
 if [ $CONTAINER_READY = "0" ]
-  then docker build --build-arg SERVICE=$service -t $image_tag .
+  then docker build --progress plain --build-arg SERVICE=$service -t $image_tag .
 fi
 # checks for nvidia drivers
 if command -v nvidia-smi &> /dev/null
   then GPU_ARG='--gpus all'
   else GPU_ARG=''
 fi
+echo "launching service in docker"
+echo "Using volume maping: '$local_model_path:$container_model_path'"
 # launch
 docker run \
   $GPU_ARG \

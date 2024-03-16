@@ -1,5 +1,7 @@
 target
 models
+datasets
+data
 libtorch
 *.bin
 *.ot

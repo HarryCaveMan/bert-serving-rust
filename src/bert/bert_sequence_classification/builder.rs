@@ -71,7 +71,8 @@ impl SequenceClassificationBuilder<Local> {
             lower_case: false,
             strip_accents: None,
             add_prefix_space: None,
-            device: self.device
+            device: self.device,
+            kind: None
         };
         SequenceClassificationModel::new(config)
     }

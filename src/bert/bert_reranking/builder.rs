@@ -3,20 +3,20 @@ use serde::{Deserialize};
 use tch::Device;
 use rust_bert::resources::{LocalResource};
 use rust_bert::pipelines::common::{ModelType,ModelResource};
-use rust_bert::pipelines::ner::{NERModel};
-use rust_bert::pipelines::token_classification::{LabelAggregationOption,TokenClassificationConfig};
+use rust_bert::pipelines::sequence_classification::{SequenceClassificationConfig};
 use rust_bert::{Config,RustBertError};
+use super::bert_reranking_model::{RerankingModel};
 
-/// # NER Model Builder
+/// # SequenceClassification Model Builder
 ///
 /// Allows the user to build a model from standard Sentence-Transformer files
 /// (configuration and weights).
-pub struct NERBuilder<T> {
+pub struct RerankingBuilder<T> {
     device: Device,
     inner: T,
 }
 
-impl<T> NERBuilder<T> {
+impl<T> RerankingBuilder<T> {
     pub fn with_device(mut self, device: Device) -> Self {
         self.device = device;
         self
@@ -34,7 +34,7 @@ struct ModelConfig {
 
 impl Config for ModelConfig {}
 
-impl NERBuilder<Local> {
+impl RerankingBuilder<Local> {
     pub fn local<P: Into<PathBuf>>(model_dir: P) -> Self {
         Self {
             device: Device::cuda_if_available(),
@@ -44,7 +44,7 @@ impl NERBuilder<Local> {
         }
     }
 
-    pub fn create_model(self) -> Result<NERModel, RustBertError> {
+    pub fn create_model(self) -> Result<RerankingModel, RustBertError> {
         let model_dir = self.inner.model_dir;
         let config_resource = model_dir.join("config.json");
         let transformer_type = ModelConfig::from_file(&config_resource).model_type;
@@ -63,7 +63,7 @@ impl NERBuilder<Local> {
                 )));
             }
         };
-        let config: TokenClassificationConfig = TokenClassificationConfig {
+        let config: SequenceClassificationConfig = SequenceClassificationConfig {
             model_type: transformer_type,
             model_resource: ModelResource::Torch(Box::new(local_resource)),
             config_resource: config_resource.into(),
@@ -73,10 +73,8 @@ impl NERBuilder<Local> {
             strip_accents: None,
             add_prefix_space: None,
             device: self.device,
-            label_aggregation_function: LabelAggregationOption::First,
-            batch_size: 64,
             kind: None
         };
-        NERModel::new(config)
+        RerankingModel::new(config)
     }
 }
