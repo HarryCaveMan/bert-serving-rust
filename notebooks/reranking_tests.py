@@ -31,3 +31,4 @@ ranked_metadata = [{"score":float(probs[i]),"text":passages[i]} for i in ranking
 print(f"""RANKINGS FULL METADATA
 
 {to_json(ranked_metadata,indent=2)}
+""")
