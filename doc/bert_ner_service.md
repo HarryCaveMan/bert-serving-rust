@@ -3,8 +3,8 @@
 ## Base Path
 The NER service path will be set by the `SERVICE` environment variable, but will default to `/bert_ner_service`
 
-## Enable BIO span tagging
-Models for NER commonly use `B-{label}` `I-{label}` `O-{label}` prefixes on their tags to help group tokens together into "spans" that all have the same `label`. The default behavior of the NER service is to just tag all sequences at the token level. You can anable span tagging using BIO bu setting the environment variable `BIO_ENABLED`, which can either be `0`(disabled) or `1`(enabled). The `launch-in-docker` script has an arg `bio_enabled` which defaults to `0`.
+## Enable Span Tagging
+To get full entity spans instead of individual tokens, set the environment variable `NER_SPANS=1`. The `launch-in-docker` script also accepts a parameter `ner_spans` which toggles this environment variable when launching the service container.
 
 ## API
 ### `GET /ping`

@@ -3,7 +3,7 @@ rebuild=no
 image_tag=test_server
 service=bert_embedding_service
 num_web_workers=4
-bio_enabled=0
+ner_spans=0
 # parses ANY key=value argument passed in, but the script only uses the ones supported.
 for arg in "$@"
 do
@@ -37,7 +37,7 @@ docker run \
   -e RUST_LOG=debug \
   -e MODEL_PATH=$container_model_path \
   -e NUM_WEB_WORKERS=$num_web_workers \
-  -e BIO_ENABLED=$bio_enabled \
+  -e NER_SPANS=$ner_spans \
   -v $local_model_path:$container_model_path \
   -p 5000:5000 \
 $image_tag serve
