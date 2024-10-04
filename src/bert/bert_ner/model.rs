@@ -27,7 +27,7 @@ impl BertNERModel {
         }
     }
     pub fn predict(&self,sentences: &Vec<String>) -> Vec<Vec<Entity>> {
-        if self.bio_enabled {
+        if self.spans {
             self.model.predict_full_entities(sentences)
             // debug!("{:?}",tagged_tokens);
             // tag_spans_bio(sentences,&tagged_tokens)
