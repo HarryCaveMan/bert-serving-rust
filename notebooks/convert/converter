@@ -1,0 +1,75 @@
+#!/bin/bash
+
+convert() {
+    model_path=$1
+    image_tag=$2
+    container_ready=$3
+
+    # kicks off build if conditions met
+    if [ $container_ready = "0" ]
+    then 
+    echo "building image..."
+    docker build --progress plain --build-arg SERVICE=$service -t $image_tag .
+    fi
+
+    # checks for nvidia drivers
+    if command -v nvidia-smi &> /dev/null
+    then gpu_arg='--gpus all'
+    else gpu_arg=''
+    fi
+
+    echo "converting model"
+    echo "launch command:"
+    echo """
+docker run \
+    $gpu_arg \
+    -it \
+    -v $model_path:/opt/ml/model \
+    -w /opt/ml/model \
+$image_tag /opt/ml/model
+    """
+    # launch
+    docker run \
+        $gpu_arg \
+        -it \
+        -v $model_path:/opt/ml/model \
+        -w /opt/ml/ \
+    $image_tag /opt/ml/model/pytorch_model.bin
+}
+
+main() {
+    rebuild=no
+    image_tag=model_converter
+    model_path=$(pwd)
+
+    sub_command=$1
+
+    shift
+
+    # parses ANY key=value argument passed in, but the script only uses the ones supported.
+    for arg in "$@"
+    do
+        name="$(printf "%s" $arg | cut -d "=" -f1)"
+        val="$(printf "%s" $arg | cut -d "=" -f2)"
+        declare "${name}"="$val"
+    done
+
+    # checks if image tag present locally
+    container_ready=`docker images | grep $image_tag | wc -l`
+    # overrides check if rebuild == yes
+    if [ $rebuild = "yes" ]
+    then    
+        container_ready="0"
+    fi
+
+    case $sub_command in
+        convert)
+            $sub_command $model_path $image_tag $container_ready
+        ;;
+        *)
+            echo "Currently only 'convert' command is supported"
+        ;;
+    esac
+}
+
+main $@

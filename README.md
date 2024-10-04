@@ -6,8 +6,10 @@ Heavily dependent on [`rust_bert`](https://github.com/guillaume-be/rust-bert/tre
 
 The ultimate near-term goal of this project is to support all the [pipelines](https://github.com/guillaume-be/rust-bert/blob/main/README.md#ready-to-use-pipelines) currently supported by `rust_bert`. The long-term would not be limited to these, because botht this crate and `rust_bert` offer flexibility and extensibility.
 
-## In Progress Features (16 Mar 2024)
+## In Progress Features (4 Oct 2024)
 - Working on performance/load benchmarks
+- Added BIO span tagging to NER service (4 Oct 2024)
+- Used rayon to add parallelization to easily targeted  (4 Oct 2024)
 - Reranking added (16 Mar 2024)
 - Sequence Classification added 17 October 2023
 - NER support added 15 October 2023

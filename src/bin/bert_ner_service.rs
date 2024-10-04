@@ -20,7 +20,8 @@ async fn main() -> std::io::Result<()> {
     HttpServer::new( move || {
         let model_path: &str = &env::var("MODEL_PATH").unwrap();
         let service: &str = &env::var("SERVICE").unwrap();
-        let model: BertNERModel = BertNERModel::new_from_file(model_path).unwrap();
+        let bio_enabled: bool =  env::var("BIO_ENABLED").unwrap() == "1";
+        let model: BertNERModel = BertNERModel::new_from_file(model_path,Some(bio_enabled)).unwrap();
         App::new()
             .service(
                 web::scope(&format!("/{}",service))

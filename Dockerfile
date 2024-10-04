@@ -8,12 +8,11 @@ WORKDIR /opt
 # ALL Runtime apt dependencies are installed here
 RUN apt -y update && apt -y upgrade &&\
     apt -y install \
-        pkg-config libssl-dev libgomp1 acl tar unzip gzip
+        pkg-config libssl-dev libgomp1 acl tar unzip gzip curl
 
 FROM base as libtorch-base
 # Install libtorch binary into its own layer
-RUN apt -y install curl &&\
-    curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.1.0%2Bcu118.zip &&\
+RUN curl --proto '=https' --tlsv1.2 -o libtorch.zip https://download.pytorch.org/libtorch/cu118/libtorch-cxx11-abi-shared-with-deps-2.4.0%2Bcu118.zip &&\
     unzip libtorch.zip
 
 FROM libtorch-base as builder
@@ -22,7 +21,7 @@ RUN apt -y install build-essential && curl --proto '=https' --tlsv1.2 -sSf https
   
 ENV PATH="/root/.cargo/bin:$PATH"
 COPY . .
-RUN cargo build --release --bin $SERVICE
+RUN cargo update && cargo build --release --bin $SERVICE
 
 FROM base
 # Start with fresh base layer and bopy over build artifacts

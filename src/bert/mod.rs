@@ -49,6 +49,21 @@ mod tests {
     }
 
     #[test]
+    fn test_ner_from_file_with_bio() {
+        println!("Testing BERT NER model file constructor...");
+        let model_path: &str = "notebooks/models/bert-large-cased-finetuned-conll03-english";
+        let ner_model: BertNERModel = BertNERModel::new_from_file(model_path,true).unwrap();
+        let sentences: Vec<String> = vec![
+            String::from("Hi I'm HarryCaveMan From The United States"),
+            String::from("Hi I'm Billy Williams from WilliamsBurg Virginia"),
+            String::from("President Barack Obama lived in Washington D.C."),
+            String::from("abcdefghijklmnopqrstuvwxyz now I know my abc's, next time won't you sing with me? 0123456789")
+        ];
+        let extractions: Vec<Vec<Entity>> = ner_model.predict(&sentences);
+        println!("NER test success! Extractions\n{:?}",extractions);
+    }
+
+    #[test]
     fn test_sequence_classification_from_file() {
         println!("Testing BERT NER model file constructor...");
         let model_path: &str = "notebooks/models/finbert";
